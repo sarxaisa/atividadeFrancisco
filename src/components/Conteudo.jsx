@@ -1,29 +1,33 @@
 import React from "react";
 import Paz from "../img/Paz.jpg";
+import Palestras from "../img/Palestras.jpg"
+import Aprendizes from "../img/Aprendizes.jpg"
+import Espiritual from "../img/Espiritual.jpg"
+import Gestantes from "../img/Gestantes.jpg"
 
 function Conteudo() {
   const conteudos = [
     {
       titulo: "Gestantes e Crianças",
       descricao: "Terça-feira às 14:45h",
-      imagem: Paz
+      imagem: Gestantes
     },
     {
       titulo: "Assistência Espiritual",
       descricao: "Segunda-feira e Terça-feira ás 19:45h",
       paragrafo: "Quinta-feira ás 14:45h",
-      imagem: Paz
+      imagem: Espiritual
     },
     {
       titulo: "Escola de Aprendizes",
       descricao: "Quarta-feira às 14:00h e 19:30h",
-      imagem: Paz
+      imagem: Aprendizes
     },
     {
       titulo: "Palestras públicas",
       descricao: "Segunda-feira e Terça-feira ás 19:45h",
       paragrafo: "Quinta-feira ás 14:45h",
-      imagem: Paz
+      imagem: Palestras
     },
     {
       titulo: "Juventude",
@@ -48,4 +52,4 @@ function Conteudo() {
   );
 }
 
-export default Conteudo
+export default Conteudo;
