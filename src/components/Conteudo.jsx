@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect} from "react";
+import React, { useState } from "react";
 import Palestras from "../img/Palestras.jpg";
 import Aprendizes from "../img/Aprendizes.jpg";
 import Espiritual from "../img/Espiritual.jpg";
@@ -8,11 +8,6 @@ import Eventos from "../img/Eventos.jpg";
 
 function Conteudo() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const startX = useRef(0);
-  const currentX = useRef(0);
-  const isDragging = useRef(false);
-
 
   const conteudos = [
     {
@@ -47,7 +42,8 @@ function Conteudo() {
       titulo: "Juventude",
       descricao: "Quinta-feira às 19:45h",
       imagem: Juventude,
-      texto: "Por meio de atividades lúdicas, palestras, artesanato e passes, a ética e moral cristã é trabalhada com os jovens entre oito e dezoito anos, transmitindo os ensinamentos de nosso mestre Jesus com leveza e alegria."
+      texto:
+        "Por meio de atividades lúdicas, palestras, artesanato e passes, a ética e moral cristã é trabalhada com os jovens entre oito e dezoito anos, transmitindo os ensinamentos de nosso mestre Jesus com leveza e alegria."
     },
     {
       titulo: "Eventos",
@@ -57,76 +53,34 @@ function Conteudo() {
     }
   ];
 
-  const nextSlide = () =>
-    setActiveIndex((prev) => (prev + 1) % conteudos.length);
-  const prevSlide = () =>
-    setActiveIndex((prev) => (prev - 1 + conteudos.length) % conteudos.length);
-
-  // autoplay
-  useEffect(() => {
-    if (paused) return;
-    const timer = setInterval(() => nextSlide(), 4000);
-    return () => clearInterval(timer);
-  }, [paused, activeIndex]);
-
-  // arraste
-  const handleStart = (e) => {
-    isDragging.current = true;
-    startX.current = e.type.includes("mouse")
-      ? e.pageX
-      : e.touches[0].pageX;
-    setPaused(true);
-  };
-
-  const handleMove = (e) => {
-    if (!isDragging.current) return;
-    currentX.current = e.type.includes("mouse")
-      ? e.pageX
-      : e.touches[0].pageX;
-  };
-
-  const handleEnd = () => {
-    if (!isDragging.current) return;
-    const deltaX = startX.current - currentX.current;
-    if (deltaX > 50) nextSlide();
-    if (deltaX < -50) prevSlide();
-    isDragging.current = false;
-    setPaused(false);
-  };
-
   return (
     <div className="atividades">
       <h1>Atividades</h1>
-      <div
-        className="carousel-wrapper"
-        onMouseDown={handleStart}
-        onMouseMove={handleMove}
-        onMouseUp={handleEnd}
-        onMouseLeave={handleEnd}
-        onTouchStart={handleStart}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
-      >
+
+      <div className="carousel-wrapper">
         <div
           className="carousel-track"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          style={{
+            transform: `translateX(-${activeIndex * 100}%)`,
+            transition: "transform 0.6s ease",
+            display: "flex",
+          }}
         >
           {conteudos.map((item, i) => (
-            <div className="carousel-item" key={i}>
+            <div className="carousel-item" key={i} style={{ minWidth: "100%" }}>
               <div className="carousel-image-container">
                 <img src={item.imagem} alt={item.titulo} loading="lazy" />
               </div>
               <div className="carousel-text">
                 <h3>{item.titulo}</h3>
-                {item.descricao && (
-                  <p className="descricao">{item.descricao}</p>
-                )}
+                {item.descricao && <p className="descricao">{item.descricao}</p>}
                 <p>{item.texto}</p>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Pontinhos (único controle) */}
         <div className="carousel-dots">
           {conteudos.map((_, i) => (
             <span
